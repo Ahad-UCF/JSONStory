@@ -7,7 +7,12 @@ import (
 	"encoding/json"
 )
 
-// TODO: Create a flag function to grab whether a command line or webapp story will be used 
+// TODO: Create a flag function to grab whether a command line or webapp story will be used
+func grabCMD() (bool) {
+	CMD := flag.Bool("Command_Line", true, "true or false, will command line be used to tell the story?")
+	flag.Parse()
+	return *CMD
+}
 
 // function to grab and return a jsonFile to decode later
 func grabJson() (*os.File){

@@ -6,7 +6,15 @@ import ()
 func main(){
 	// Generate a map that we will later dump the json into
 	var story Story
+
+	// Generate a bool value to determine whether we are using command line to print
+	CMD := grabCMD()
 	decodeJson(grabJson(), &story)
-	// Command line story
-	readStoryCmd("intro", &story)
+
+	if (CMD){
+		// Command line story
+		readStoryCmd("intro", &story)
+	}
+
+
 }
