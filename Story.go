@@ -7,5 +7,6 @@ func main(){
 	// Generate a map that we will later dump the json into
 	var story Story
 	decodeJson(grabJson(), &story)
-	printArc("intro", &story)
+	// Command line story
+	readStoryCmd("intro", &story)
 }

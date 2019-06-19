@@ -3,6 +3,7 @@
 package main
 
 import(
+	"os"
 	"fmt"
 )
 
@@ -25,11 +26,51 @@ type Option struct {
 }
 
 // Print the title of each story_arc followed by the actual story for that chapter
-func printArc(Title string,storyptr *Story){
+func printArcCmd(Title string,storyptr *Story){
 	title := (*storyptr)[Title].Title
 	story := (*storyptr)[Title].Story
-	fmt.Println(title)
+	fmt.Println(title + ":")
 	for i := 0; i < len(story); i++{
-		fmt.Println(story[i])
+		fmt.Printf("%s\n",story[i])
+	}
+}
+
+// TODO: Develop webapp version
+
+// The below functions are all for the prelimenary command line story
+
+// Print the options that each story arc has
+func printOptionsCmd(Title string,storyptr *Story){
+	options := (*storyptr)[Title].Options
+
+	// Terminate the program when we reach the part of the json with no options
+	if len(options) == 0{
+		os.Exit(0)
+	}
+	fmt.Println("Choices")
+
+	// Cycle through and the print the Text of each option
+	for i:=0; i < len(options); i++{
+		fmt.Printf("Choice %d:	%s\n", i,options[i].Text)
+	}
+}
+
+// Grab which option the user wants to follow
+func getOptionCmd(Title string,storyptr *Story)(int){
+	choice := -1
+	fmt.Scan(&choice)
+	return choice
+}
+
+// Reads the entire story
+// Calls each function until the end case is detected by the print options command
+func readStoryCmd(Title string,storyptr *Story){
+	title := Title
+	for{
+		options := (*storyptr)[title].Options
+		printArcCmd(title, storyptr)
+		printOptionsCmd(title, storyptr)
+		title = options[getOptionCmd(title, storyptr)].Arc
+		fmt.Println(title)
 	}
 }

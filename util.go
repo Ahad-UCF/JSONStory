@@ -7,6 +7,8 @@ import (
 	"encoding/json"
 )
 
+// TODO: Create a flag function to grab whether a command line or webapp story will be used 
+
 // function to grab and return a jsonFile to decode later
 func grabJson() (*os.File){
 	fileName := flag.String("json_File", "gopher.json", "The json file's name")
