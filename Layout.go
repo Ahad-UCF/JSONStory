@@ -27,6 +27,7 @@ type Option struct {
 
 // A basic html template to display each page.
 // Had to look up the gophercies video on this, have no experience with html templates!
+// Extra comments included for future reference
 var handlrTemplate = `
 <!DOCTYPE html>
 <html>
@@ -34,15 +35,26 @@ var handlrTemplate = `
 	<meta charset="utf-8">
 	<title>Story</title>
 	</head>
-	<body>
+	<style>
+		li{
+	  width: 350px;
+		text align: center;
+		}
+		p {
+			text align: center;
+		}
+	</style>
+	<body bgcolor ="#ADD8E6">
 		<h1>{{.Title}}</h1>
 		{{range .Story}}
+		<!-- Creates a paragraph with the story. Able to use just the dot since it was used earlier -->
 		<p>{{.}}</p>
 		{{end}}
 		<ul>
+			<!--range works as in go, in other words as many options will appear as exist -->
 			{{range .Options}}
-			{{.}}
-				<li> <a href="/{{.Arc}}"{{.Text}}></a></li>
+				<!--The respective text will link to the respective arc -->
+				<li> <a href="/{{.Arc}}">{{.Text}}</a></li>
 			{{end}}
 		</ul>
 	</body>
@@ -57,8 +69,6 @@ func printArcCmd(Title string,storyptr *Story){
 		fmt.Printf("%s\n",story[i])
 	}
 }
-
-// TODO: Develop webapp version
 
 // The below functions are all for the prelimenary command line story
 

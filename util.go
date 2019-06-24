@@ -7,9 +7,9 @@ import (
 	"encoding/json"
 	"html/template"
 	"net/http"
+	"strings"
 )
 
-// TODO: Create a flag function to grab whether a command line or webapp story will be used
 func grabCMD() (bool) {
 	CMD := flag.Bool("Command_Line", true, "true or false, will command line be used to tell the story?")
 	flag.Parse()
@@ -50,10 +50,21 @@ type handler struct{
 
 // Verify that the intro page will work with the template.
 func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request){
+	path := strings.TrimSpace(r.URL.Path)
 	tpl := template.Must(template.New("").Parse(handlrTemplate))
-	err := tpl.Execute(w, h.s["intro"])
-	if err != nil{
-		panic (err)
+
+	// If empty input, assume we start at the intro
+	if path == "" || path == "/"{
+		path = "/intro"
+	}
+
+	// Drop the first index (the /)
+	path = path[1:]
+
+	// The ok is used to check if the
+	if Story, ok := h.s[path]; ok{
+		err := tpl.Execute(w, Story)
+		checkErr(err)
 	}
 }
 

@@ -20,7 +20,7 @@ func main(){
 	}
 	// Create a handler with our Story variable
 	h := newHandler(story)
-	// For testing purposes, check if an http page on port 3000 works
-	fmt.Println("STARTING SERVER ON 3000")
-	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", 3000),h))
+	// Let the user know which port is being used
+	fmt.Println("STARTING SERVER ON 8080")
+	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", 8080),h))
 }
