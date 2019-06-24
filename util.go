@@ -5,6 +5,8 @@ import (
 	"os"
 	"flag"
 	"encoding/json"
+	"html/template"
+	"net/http"
 )
 
 // TODO: Create a flag function to grab whether a command line or webapp story will be used
@@ -36,7 +38,24 @@ func decodeJson(jsonFile *os.File, storyptr *Story){
 	checkErr(err)
 }
 
+// Create a new handler with the story input wanted
+func newHandler(s Story) http.Handler {
+	return handler{s}
+}
 
+// A simple handler struct to handle https
+type handler struct{
+	s Story
+}
+
+// Verify that the intro page will work with the template.
+func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request){
+	tpl := template.Must(template.New("").Parse(handlrTemplate))
+	err := tpl.Execute(w, h.s["intro"])
+	if err != nil{
+		panic (err)
+	}
+}
 
 // Verify that an error did not occur, if it did... panic!
 func checkErr(err error){

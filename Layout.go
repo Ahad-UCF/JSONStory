@@ -25,6 +25,29 @@ type Option struct {
 	Arc string `json:"arc"`
 }
 
+// A basic html template to display each page.
+// Had to look up the gophercies video on this, have no experience with html templates!
+var handlrTemplate = `
+<!DOCTYPE html>
+<html>
+	<head>
+	<meta charset="utf-8">
+	<title>Story</title>
+	</head>
+	<body>
+		<h1>{{.Title}}</h1>
+		{{range .Story}}
+		<p>{{.}}</p>
+		{{end}}
+		<ul>
+			{{range .Options}}
+			{{.}}
+				<li> <a href="/{{.Arc}}"{{.Text}}></a></li>
+			{{end}}
+		</ul>
+	</body>
+</html>
+`
 // Print the title of each story_arc followed by the actual story for that chapter
 func printArcCmd(Title string,storyptr *Story){
 	title := (*storyptr)[Title].Title
